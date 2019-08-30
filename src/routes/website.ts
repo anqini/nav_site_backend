@@ -3,7 +3,7 @@ import { NextFunction, Response, Request, Router } from "express";
 // interface
 import IWeb from "../interfaces/website";
 // mongoose model
-import Website from "../models/Website";
+import Website from "../models/website";
 
 /**
  * @class WAPI
