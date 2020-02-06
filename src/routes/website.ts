@@ -2,6 +2,7 @@
 import { NextFunction, Response, Request, Router } from "express";
 // interface
 import IWeb from "../interfaces/website";
+import ITag from "../interfaces/tag";
 // mongoose model
 import Website from "../models/website";
 
@@ -25,7 +26,7 @@ export class WAPI {
             new WAPI().search(req, res, next);
         })
         router.get("/schools", (req: Request, res: Response, next: NextFunction) => {
-            new WAPI().search(req, res, next);
+            new WAPI().getSchools(req, res, next);
         })
     }
 
@@ -59,6 +60,28 @@ export class WAPI {
 
             // send json
             res.json(website.toObject());
+            next();
+        }).catch(next);
+    }
+    /**
+     * get a university
+     * @param req 
+     * @param res
+     * @param next
+     */
+    public getSchools(req: Request, res: Response, next: NextFunction) {
+
+        // get Website
+        Website.find({}, {ranking: 1, title: 1}).then((tags:  Array<ITag>) => {
+            // verify website is found
+            if (!tags.length) {
+                res.sendStatus(404);
+                next();
+                return;
+            }
+
+            // send json
+            res.json(tags.map((tag: ITag) => tag.toObject()));
             next();
         }).catch(next);
     }
