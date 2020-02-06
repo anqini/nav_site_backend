@@ -72,7 +72,7 @@ export class WAPI {
     public getSchools(req: Request, res: Response, next: NextFunction) {
 
         // get Website
-        Website.find({}, {ranking: 1, title: 1}).then((tags:  Array<ITag>) => {
+        Website.find({}, {rank: 1, title: 1}).then((tags:  Array<ITag>) => {
             // verify website is found
             if (!tags.length) {
                 res.sendStatus(404);
