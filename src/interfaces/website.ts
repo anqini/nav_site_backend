@@ -4,6 +4,7 @@ import IDS from './schoolDtl';
 export default interface IWeb extends Document {
     id: number,
 	ranking: number,
+	rank: string,
 	en_title: string,
 	title: string,
 	content: string,
