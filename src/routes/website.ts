@@ -24,6 +24,9 @@ export class WAPI {
         router.get("/search/:content", (req: Request, res: Response, next: NextFunction) => {
             new WAPI().search(req, res, next);
         })
+        router.get("/schools", (req: Request, res: Response, next: NextFunction) => {
+            new WAPI().search(req, res, next);
+        })
     }
 
 
