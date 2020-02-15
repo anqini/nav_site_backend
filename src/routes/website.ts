@@ -3,8 +3,11 @@ import { NextFunction, Response, Request, Router } from "express";
 // interface
 import IWeb from "../interfaces/website";
 import ITag from "../interfaces/tag";
+import ITableRow from "../interfaces/tableInfo";
 // mongoose model
 import Website from "../models/website";
+import Tag from "../models/tag";
+import TableRow from "../models/tableRow";
 
 /**
  * @class WAPI
@@ -27,6 +30,10 @@ export class WAPI {
         })
         router.get("/schools", (req: Request, res: Response, next: NextFunction) => {
             new WAPI().getSchools(req, res, next);
+        })
+        // getTableRows
+        router.get("/table", (req: Request, res: Response, next: NextFunction) => {
+            new WAPI().getTableRows(req, res, next);
         })
     }
 
@@ -64,7 +71,7 @@ export class WAPI {
         }).catch(next);
     }
     /**
-     * get a university
+     * get university tags
      * @param req 
      * @param res
      * @param next
@@ -72,7 +79,7 @@ export class WAPI {
     public getSchools(req: Request, res: Response, next: NextFunction) {
 
         // get Website
-        Website.find({}, {rank: 1, title: 1}).then((tags:  Array<ITag>) => {
+        Tag.find({}, {rank: 1, title: 1}).then((tags:  Array<ITag>) => {
             // verify website is found
             if (!tags.length) {
                 res.sendStatus(404);
@@ -82,6 +89,30 @@ export class WAPI {
 
             // send json
             res.json(tags.map((tag: ITag) => tag.toObject()));
+            next();
+        }).catch(next);
+    }
+
+    /**
+     * get university table Row
+     * @param req 
+     * @param res
+     * @param next
+     */
+    public getTableRows(req: Request, res: Response, next: NextFunction) {
+
+        // get Website
+        TableRow.find({}, {title: 1, rankIn2020: 1, rankIn2019: 1, state: 1, logo: 1, 
+        EnglishName: 1, change1: 1, change2: 1}).then((tags:  Array<ITableRow>) => {
+            // verify website is found
+            if (!tags.length) {
+                res.sendStatus(404);
+                next();
+                return;
+            }
+
+            // send json
+            res.json(tags.map((tag: ITableRow) => tag.toObject()));
             next();
         }).catch(next);
     }

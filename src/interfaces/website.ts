@@ -19,5 +19,11 @@ export default interface IWeb extends Document {
 	images: string,
 	category: Array<string>,
 	post_tag: Array<string>,
-	icon: Number
+	icon: number,
+	rankIn2020: string,
+	rankIn2019: string,
+	EnglishName: string,
+	logo: string,
+	change1: string,
+	change2: string
 }
