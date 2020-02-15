@@ -13,7 +13,7 @@ var httpServer = http.createServer(app);
 
 //listen on provided ports
 try {
-    httpServer.listen(httpPort);
+    httpServer.listen(httpPort, "0.0.0.0");
     console.log(`listening on port ${httpPort}...`);
 } catch(err) {
     console.error(err);
