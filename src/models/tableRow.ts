@@ -12,4 +12,4 @@ const TableSchema: Schema = new Schema({
     state: String
 })
 
-export default model<ITableRow>("Tag", TableSchema)
+export default model<ITableRow>("TableRow", TableSchema)
