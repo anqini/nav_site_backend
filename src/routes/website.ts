@@ -33,6 +33,14 @@ export class WAPI {
         router.get("/table", (req: Request, res: Response, next: NextFunction) => {
             new WAPI().getTableRows(req, res, next);
         })
+        
+        router.get("/schools_liberal_art", (req: Request, res: Response, next: NextFunction) => {
+            new WAPI().getSchools_liberalArt(req, res, next);
+        })
+        // getTableRows
+        router.get("/table_liberal_art", (req: Request, res: Response, next: NextFunction) => {
+            new WAPI().getTableRows_liberalArt(req, res, next);
+        })
     }
 
 
@@ -77,7 +85,7 @@ export class WAPI {
     public getSchools(req: Request, res: Response, next: NextFunction) {
 
         // get Website
-        Website.find({rankIn2020: {$exists: true}}, {rank: 1, title: 1}).then((tags:  Array<ITag>) => {
+        Website.find({rankIn2020: {$exists: true} , liberalArt: {$exists: false}}, {rank: 1, title: 1, rankIn2020: 1}).then((tags:  Array<ITag>) => {
             // verify website is found
             if (!tags.length) {
                 res.sendStatus(404);
@@ -100,7 +108,55 @@ export class WAPI {
     public getTableRows(req: Request, res: Response, next: NextFunction) {
 
         // get Website
-        Website.find({rankIn2020: {$exists: true}}, {title: 1, rankIn2020: 1, rankIn2019: 1, state: 1, logo: 1, 
+        Website.find({rankIn2020: {$exists: true}, liberalArt: {$exists: false}}, {title: 1, rankIn2020: 1, rankIn2019: 1, state: 1, logo: 1, 
+        EnglishName: 1, change1: 1, change2: 1}).then((tags:  Array<ITableRow>) => {
+            // verify website is found
+            if (!tags.length) {
+                res.sendStatus(404);
+                next();
+                return;
+            }
+
+            // send json
+            res.json(tags.map((tag: ITableRow) => tag.toObject()));
+            next();
+        }).catch(next);
+    }
+
+
+    /**
+     * get university tags
+     * @param req 
+     * @param res
+     * @param next
+     */
+    public getSchools_liberalArt(req: Request, res: Response, next: NextFunction) {
+
+        // get Website
+        Website.find({rankIn2020: {$exists: true} , liberalArt: {$exists: true}}, {rank: 1, title: 1, rankIn2020: 1}).then((tags:  Array<ITag>) => {
+            // verify website is found
+            if (!tags.length) {
+                res.sendStatus(404);
+                next();
+                return;
+            }
+
+            // send json
+            res.json(tags.map((tag: ITag) => tag.toObject()));
+            next();
+        }).catch(next);
+    }
+
+    /**
+     * get university table Row
+     * @param req 
+     * @param res
+     * @param next
+     */
+    public getTableRows_liberalArt(req: Request, res: Response, next: NextFunction) {
+
+        // get Website
+        Website.find({rankIn2020: {$exists: true}, liberalArt: {$exists: true}}, {title: 1, rankIn2020: 1, rankIn2019: 1, state: 1, logo: 1, 
         EnglishName: 1, change1: 1, change2: 1}).then((tags:  Array<ITableRow>) => {
             // verify website is found
             if (!tags.length) {
