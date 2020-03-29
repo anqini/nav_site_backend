@@ -4,12 +4,18 @@
 //module dependencies
 var server = require("./server/server");
 var debug = require("debug")("express:server");
-var http = require("http");
+var https = require("https");
+const fs = require("fs");
+
 //create http server
+const options = {   
+	key: fs.readFileSync('key.pem'),   
+	cert: fs.readFileSync('cert.pem') 
+};
 var httpPort = normalizePort(process.env.PORT || 5000);
 var app = server.Server.bootstrap().app;
 app.set("port", httpPort);
-var httpServer = http.createServer(app);
+var httpServer = https.createServer(options, app);
 
 //listen on provided ports
 try {
